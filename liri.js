@@ -94,7 +94,7 @@ function concertThis() {
         var artist = process.argv[3];
     }
     else {
-        var artist = "Coheed & Cambria";
+        var artist = "Cher";
     }
 
     var bandUrl = "https://rest.bandsintown.com/artists/" + artist + "/events?app_id=codingbootcamp";
