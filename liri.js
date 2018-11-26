@@ -3,11 +3,22 @@ require("dotenv").config();
 // var spotify = new Spotify(keys.spotify);
 var axios = require("axios");
 
-// Determine if command is valid
+// Initial if statements to determine if command is valid
 if (process.argv[2]) {
-    if (process.argv[2] === "concert-this") {
+    // Run the movie-this function
+    if (process.argv[2] === "movie-this") {
+        console.log("Running movie-this...");
+        movieThis();
+    }
+    // Run the spotify-this-song function
+    else if (process.argv[2] === "spotify-this-song") {
+        console.log("Running spotify-this-song...");
+        spotifyThis();  
+    }
+    // Run the concert-this function
+    else if (process.argv[2] === "concert-this") {
         console.log("Running concert-this...");
-        concertThis();
+        concertThis();  
     }
     else {
         validCommand();
@@ -17,7 +28,8 @@ else {
     validCommand();
 }
 
-function concertThis() {
+// Function using axios package to search for movie information
+function movieThis() {
 
     if (process.argv[3]) { 
         var movieName = process.argv[3];
@@ -42,6 +54,12 @@ function concertThis() {
     );
 }
 
+// Function using Node-Spotify-API package to search for movie information
+function spotifyThis() {
+    console.log("It's working!!");
+}
+
+// Console.logs this text if a valid command is not chosen
 function validCommand() {
     console.log("\n" + "Please enter a valid command from the following list:");
     console.log("concert-this");
