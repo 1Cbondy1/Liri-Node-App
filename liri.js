@@ -24,7 +24,6 @@ if (process.argv[2]) {
     }
     // Run the concert-this function
     else if (process.argv[2] === "concert-this") {
-        console.log("Running concert-this...");
         concertThis();  
     }
     else {
@@ -84,6 +83,33 @@ function spotifyThis() {
         console.log("Preview: " + data.tracks.items[0].preview_url + "\n"); 
 
     });
+}
+
+// Function using axios package to search for movie information
+function concertThis() {
+
+    console.log("Running concert-this...");
+
+    if (process.argv[3]) { 
+        var artist = process.argv[3];
+    }
+    else {
+        var artist = "Coheed & Cambria";
+    }
+
+    var bandUrl = "https://rest.bandsintown.com/artists/" + artist + "/events?app_id=codingbootcamp";
+
+    // Runs a request with axios to the OMDB API with the movie specified
+    axios.get(bandUrl).then(
+        function(response) {
+            console.log("\n" + "Artist: " + artist);
+            for (var i = 0; i < 5; i++) {
+                console.log("\n" + "Venue: " + response.data[i].venue.name);
+                console.log("Address: " + response.data[i].venue.city + ", " + response.data[i].venue.region + " " + response.data[i].venue.country);
+                console.log("Date: " + response.data[i].datetime + "\n");
+            }
+        }
+    );
 }
 
 // Console.logs this text if a valid command is not chosen
