@@ -1,18 +1,25 @@
 require("dotenv").config();
 
-// var spotify = new Spotify(keys.spotify);
+// Require all modules and exteral js files
+var Spotify = require('node-spotify-api');
 var axios = require("axios");
+// var keys = require('./keys');
+// var spotify = new Spotify(keys.spotify);
+ 
+var spotify = new Spotify({
+  id: '39042340b46b46739421deb0cfc535b3',
+  secret: 'cdacd156043d47f49c6ecfbddf383f26'
+});
+
 
 // Initial if statements to determine if command is valid
 if (process.argv[2]) {
     // Run the movie-this function
     if (process.argv[2] === "movie-this") {
-        console.log("Running movie-this...");
         movieThis();
     }
     // Run the spotify-this-song function
     else if (process.argv[2] === "spotify-this-song") {
-        console.log("Running spotify-this-song...");
         spotifyThis();  
     }
     // Run the concert-this function
@@ -30,6 +37,8 @@ else {
 
 // Function using axios package to search for movie information
 function movieThis() {
+
+    console.log("Running movie-this...");
 
     if (process.argv[3]) { 
         var movieName = process.argv[3];
@@ -56,7 +65,25 @@ function movieThis() {
 
 // Function using Node-Spotify-API package to search for movie information
 function spotifyThis() {
-    console.log("It's working!!");
+    console.log("Running spotify-this-song...");
+
+    if (process.argv[3]) { 
+        var songName = process.argv[3];
+    }
+    else {
+        var songName = "The Sign, Ace of Base";
+    }
+
+    spotify.search({ type: 'track', query: songName }, function(err, data) {
+        if (err) {
+          return console.log('Error occurred: ' + err);
+        }
+        console.log("\n" + "Track: " + data.tracks.items[0].name); 
+        console.log("Artist: " + data.tracks.items[0].artists[0].name); 
+        console.log("Album: " + data.tracks.items[0].album.name); 
+        console.log("Preview: " + data.tracks.items[0].preview_url + "\n"); 
+
+    });
 }
 
 // Console.logs this text if a valid command is not chosen
