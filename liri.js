@@ -3,14 +3,8 @@ require("dotenv").config();
 // Require all modules and exteral js files
 var Spotify = require('node-spotify-api');
 var axios = require("axios");
-// var keys = require('./keys');
-// var spotify = new Spotify(keys.spotify);
- 
-var spotify = new Spotify({
-  id: '39042340b46b46739421deb0cfc535b3',
-  secret: 'cdacd156043d47f49c6ecfbddf383f26'
-});
-
+var keys = require('./keys');
+var spotify = new Spotify(keys.spotify);
 
 // Initial if statements to determine if command is valid
 if (process.argv[2]) {
@@ -40,7 +34,7 @@ function movieThis() {
     console.log("Running movie-this...");
 
     if (process.argv[3]) { 
-        var movieName = process.argv[3];
+        var movieName = process.argv.slice(3).join(" ");
     }
     else {
         var movieName = "Mr. Nobody";
@@ -67,7 +61,7 @@ function spotifyThis() {
     console.log("Running spotify-this-song...");
 
     if (process.argv[3]) { 
-        var songName = process.argv[3];
+        var songName = process.argv.slice(3).join(" ");
     }
     else {
         var songName = "The Sign, Ace of Base";
@@ -91,7 +85,7 @@ function concertThis() {
     console.log("Running concert-this...");
 
     if (process.argv[3]) { 
-        var artist = process.argv[3];
+        var artist = process.argv.slice(3).join(" ");
     }
     else {
         var artist = "Cher";
