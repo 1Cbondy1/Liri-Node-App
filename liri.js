@@ -1,10 +1,11 @@
-require("dotenv").config();
-
 // Require all modules and exteral js files
+require("dotenv").config();
 var Spotify = require('node-spotify-api');
 var axios = require("axios");
 var keys = require('./keys');
 var spotify = new Spotify(keys.spotify);
+var fs = require("fs");
+
 
 // Initial if statements to determine if command is valid
 if (process.argv[2]) {
@@ -20,6 +21,10 @@ if (process.argv[2]) {
     else if (process.argv[2] === "concert-this") {
         concertThis();  
     }
+    // Run the do-what-it-says function
+    else if (process.argv[2] === "do-what-it-says") {
+        doWhatItSays();  
+    }
     else {
         validCommand();
     }
@@ -29,12 +34,15 @@ else {
 }
 
 // Function using axios package to search for movie information
-function movieThis() {
+function movieThis(term) {
 
     console.log("Running movie-this...");
 
     if (process.argv[3]) { 
         var movieName = process.argv.slice(3).join(" ");
+    }
+    else if (term) {
+        var movieName = term;
     }
     else {
         var movieName = "Mr. Nobody";
@@ -57,11 +65,14 @@ function movieThis() {
 }
 
 // Function using Node-Spotify-API package to search for movie information
-function spotifyThis() {
+function spotifyThis(term) {
     console.log("Running spotify-this-song...");
-
+    
     if (process.argv[3]) { 
         var songName = process.argv.slice(3).join(" ");
+    }
+    else if (term) {
+        var songName = term;
     }
     else {
         var songName = "The Sign, Ace of Base";
@@ -80,12 +91,15 @@ function spotifyThis() {
 }
 
 // Function using axios package to search for movie information
-function concertThis() {
+function concertThis(term) {
 
     console.log("Running concert-this...");
 
     if (process.argv[3]) { 
         var artist = process.argv.slice(3).join(" ");
+    }
+    else if (term) {
+        var artist = term;
     }
     else {
         var artist = "Cher";
@@ -93,17 +107,40 @@ function concertThis() {
 
     var bandUrl = "https://rest.bandsintown.com/artists/" + artist + "/events?app_id=codingbootcamp";
 
-    // Runs a request with axios to the OMDB API with the movie specified
+    // Function that sends a request with axios to the OMDB API with the movie specified
     axios.get(bandUrl).then(
         function(response) {
             console.log("\n" + "Artist: " + artist);
-            for (var i = 0; i < 5; i++) {
+            for (var i = 0; i < 3; i++) {
                 console.log("\n" + "Venue: " + response.data[i].venue.name);
                 console.log("Address: " + response.data[i].venue.city + ", " + response.data[i].venue.region + " " + response.data[i].venue.country);
                 console.log("Date: " + response.data[i].datetime + "\n");
             }
         }
     );
+}
+
+// Function that uses fs package to perform a random function read from an external file
+function doWhatItSays() {
+    fs.readFile("random.txt", "utf8", function(error, data) {
+        // If the code experiences any errors it will log the error to the console.
+        if (error) {
+          return console.log(error);
+        }
+        var dataArr = data.split(",");
+
+        var ran = (Math.floor(Math.random() * 6)) * 2;
+
+        if (dataArr[ran] === "spotify-this-song") {
+            spotifyThis(dataArr[ran+1]);
+        }
+        else if (dataArr[ran] === "concert-this") {
+            concertThis(dataArr[ran+1]);
+        }
+        else if (dataArr[ran] === "movie-this") {
+            movieThis(dataArr[ran+1]);
+        }
+    });
 }
 
 // Console.logs this text if a valid command is not chosen
