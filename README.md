@@ -9,4 +9,8 @@ LIRI accepts the following three commands:
 
 You can see screenshots of the app in action below:
 
+![Screenshot](spotify-this-song.png)
+
 ![Screenshot](concert-this.png)
+
+![Screenshot](movie-this.png)
