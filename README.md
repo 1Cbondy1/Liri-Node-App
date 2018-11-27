@@ -7,4 +7,6 @@ LIRI accepts the following three commands:
 - concert-this (search for a band - the venue, location, and date are displayed using the Axios package and Bands in Town API)
 - movie-this (search for a movie - the year, ratings, language, country, and actors are displayed using the Axios package and OMDB API)
 
-You can see screenshots of the app in action in the screenshots folder.
+You can see screenshots of the app in action below:
+
+![Screenshot](concert-this.png)
